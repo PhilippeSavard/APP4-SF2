@@ -1,12 +1,16 @@
 package electronique;
 
 public class Resistance extends Composant{
-    // il faut le faire je veux juste pas que interllij chiale
-    public Resistance(double resistance){
+    private final double valeur;
 
+    public Resistance(double valeur){
+        if (valeur <= 0){
+            throw new IllegalArgumentException("La résistance doit être positive!");
+        }
+        this.valeur = valeur;
     }
     @Override
     public double calculerResistance() {
-        return 0;
+        return this.valeur;
     }
 }
