@@ -10,6 +10,15 @@ public class CircuitParallele extends Circuit{
 
     @Override
     public double calculerResistance() {
-        return 0;
+        double ResistanceTotalParallele = 0.0;
+
+        for (Composant composantDuCircuit : composantsCircuit){
+            double Resistance = composantDuCircuit.calculerResistance();
+            if (Resistance == 0){
+                throw new ArithmeticException("On ne peut pas diviser par 0!!!");
+            }
+            ResistanceTotalParallele += 1.0/Resistance;
+        }
+        return 1.0/ResistanceTotalParallele;
     }
 }
