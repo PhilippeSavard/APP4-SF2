@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CircuitApp {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         CircuitApp Client = new CircuitApp(); // imprime directement le "Client-Side" qui vas géré les interaction client
         Client.executer(); // marche parce que le Client-Side c'est un scanner qui gère les interractions donc on lui demande de déjà l'imprimer.
     }
@@ -50,22 +50,24 @@ public class CircuitApp {
                     System.out.println("Entrez un nombre valide.");
                 }
             }
-            String cheminFichierChoisi = fichierJson.get(choix - 1).getPath();
-            String nomFichierChoisi = fichierJson.get(choix - 1).getName();
 
-            System.out.println("Fichier choisi : " + nomFichierChoisi);
+            File fichierChoisi = fichierJson.get(choix - 1);
 
             try{
-                Composant circuit = CircuitGlobale.construireCircuit(cheminFichierChoisi);
+                Composant circuit = CircuitGlobale.construireCircuit(fichierChoisi.getPath());
                 double resistance = circuit.calculerResistance();
                 System.out.printf("Résistance équivalente calculée : %.2f Ω%n", resistance); // un print qui précise la manière dont tu veux qu'il imprime.
                 // %f = affiche un nombre décimal, .2 = garde 2 chiffre après la virgule, Ω = ohm l'unité, %n = va à la ligne de manière propre. tout cela chercher sur google.
+                // si une explication est nécessaire cela me fera un plaisir de le faire.
             } catch (IOException e){
                 System.out.println("Impossible de lire le fichier JSON.");
             }catch (IllegalArgumentException e){
                 System.out.println("Le fichier JSON contient des données invalides : " + e.getMessage());
             }
+            pasFini = demanderNouvelleAction(scanner);
         }
+
+        System.out.println("Fermeture de l'application.");
     }
 
     private List<File> obtenirFichiersJson(File dossier) {
