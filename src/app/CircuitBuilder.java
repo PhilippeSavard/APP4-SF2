@@ -1,7 +1,7 @@
 package app;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode; // nécessaire et se fier à 9.1 pour plus de détails (Word)
+import com.fasterxml.jackson.databind.ObjectMapper; // nécessaire et se fier à 9.1 pour plus de détails (Word)
 import electronique.CircuitParallele;
 import electronique.CircuitSerie;
 import electronique.Composant;
@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CircuitBuilder {
-    private final ObjectMapper mapper; // ObjectMapper = utile pour lecture de JsonNode
+    private final ObjectMapper mapper; // ObjectMapper = nécessaire pour lecture de JsonNode.
 
     public CircuitBuilder() {
         this.mapper = new ObjectMapper();
     }
 
-    public Composant construireCircuit(String FichierJson) throws IOException { // Intellij me demandais de rajouter l'exception.
+    public Composant construireCircuit(String FichierJson) throws IOException { // il est possible que le fichier soit illissible alors exception!
         JsonNode CircuitAuComplet = mapper.readTree(new File(FichierJson)); // readTree va lire le fichier au complet et cela représente un JsonNode que l'on vas lire les composants pour calculer la résistance.
         return lireComposant(CircuitAuComplet); // utilise le Circuit globale que l'on vient de décrire comme un fichier qu'on analyse et lit sa composante.
     }
