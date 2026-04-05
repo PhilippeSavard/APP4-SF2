@@ -25,7 +25,7 @@ public class CircuitApp {
             List<File> fichierJson = obtenirFichiersJson(dossier);
 
             if (fichierJson.isEmpty()){ //l'array list de tout les fichiers à l'intérieur du fichier dossier est vide.
-                System.out.println("Aucun fichier JSON à été trouvé dans le dossier donnees-JSON.");
+                System.out.println("Aucun fichier JSON à été trouvé dans le dossier fichiers_json.");
                 return; //pour arrêter la méthode
             }
             System.out.println("\nFichiers JSON disponibles :");
