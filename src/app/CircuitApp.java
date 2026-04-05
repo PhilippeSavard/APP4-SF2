@@ -17,7 +17,7 @@ public class CircuitApp {
     private void executer() {
         Scanner scanner = new Scanner(System.in); // création d'un scanner qui interprète le client-side
         CircuitBuilder CircuitGlobale = new CircuitBuilder(); // important parce que prouve la différence entre client side et back-end side.
-        File dossier = new File("donnees-JSON"); // désigne le dossier où vont être ranger les fichiers JSON.
+        File dossier = new File("fichiers_json"); // désigne le dossier où vont être ranger les fichiers JSON.
 
         boolean pasFini = true; //tant que ce n'est pas finit alors il faut continuer l'application.
 
