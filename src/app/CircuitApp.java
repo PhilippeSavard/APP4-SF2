@@ -1,6 +1,9 @@
 package app;
 
+import electronique.Composant;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -46,6 +49,21 @@ public class CircuitApp {
                 } catch (NumberFormatException e){
                     System.out.println("Entrez un nombre valide.");
                 }
+            }
+            String cheminFichierChoisi = fichierJson.get(choix - 1).getPath();
+            String nomFichierChoisi = fichierJson.get(choix - 1).getName();
+
+            System.out.println("Fichier choisi : " + nomFichierChoisi);
+
+            try{
+                Composant circuit = CircuitGlobale.construireCircuit(cheminFichierChoisi);
+                double resistance = circuit.calculerResistance();
+                System.out.printf("Résistance équivalente calculée : %.2f Ω%n", resistance); // un print qui précise la manière dont tu veux qu'il imprime.
+                // %f = affiche un nombre décimal, .2 = garde 2 chiffre après la virgule, Ω = ohm l'unité, %n = va à la ligne de manière propre. tout cela chercher sur google.
+            } catch (IOException e){
+                System.out.println("Impossible de lire le fichier JSON.");
+            }catch (IllegalArgumentException e){
+                System.out.println("Le fichier JSON contient des données invalides : " + e.getMessage());
             }
         }
     }
