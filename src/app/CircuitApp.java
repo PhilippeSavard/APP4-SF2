@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class  CircuitApp {
 
     private static final char fSep = File.separatorChar;
-    private static final String pathIn = System.getProperty("user.dir") + fSep + "src" + fSep + "donnees";
+    private static final String pathIn = System.getProperty("user.dir") + fSep + "src" + fSep + "donnees" + fSep + "fichiers_json";
 
     public static void main(String[] args) {
         CircuitApp Client = new CircuitApp(); // imprime directement le "Client-Side" qui vas géré les interaction client
