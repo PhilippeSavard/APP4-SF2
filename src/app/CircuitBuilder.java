@@ -2,10 +2,7 @@ package app;
 
 import com.fasterxml.jackson.databind.JsonNode; // nécessaire et se fier à 9.1 pour plus de détails (Word)
 import com.fasterxml.jackson.databind.ObjectMapper; // nécessaire et se fier à 9.1 pour plus de détails (Word)
-import electronique.CircuitParallele;
-import electronique.CircuitSerie;
-import electronique.Composant;
-import electronique.Resistance;
+import electronique.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,28 +41,29 @@ public class CircuitBuilder {
          */
 
     public Composant lireComposant(JsonNode CircuitAuComplet){ // il doit retourner un composant qu'il va interpréter du JsonNode
-        if (CircuitAuComplet == null || CircuitAuComplet.get("type") == null){ // si le circuit n'existe pas ou que le champ "type" est null alors il n'est pas réel.
+        String type = CircuitAuComplet.get("circuit").asText().toLowerCase();
+
+        if (CircuitAuComplet.get("circuit") == null) { // si le circuit n'existe pas ou que le champ "type" est null alors il n'est pas réel.
             throw new IllegalArgumentException("Le circuit dans son ensemble est un JsonNode qui n'existe pas!");
         }
 
-        String type = CircuitAuComplet.get("type").asText().toLowerCase(); // il déclare type comme le string qu'il devra adapté.
-
-        return switch (type){
-            case "resistance" -> new Resistance(CircuitAuComplet.get("valeur").asDouble()); // le String qu'il lit est "resistance" on fait alors face à une résistance.
-            case "serie" -> new CircuitSerie(lireListeComposants(CircuitAuComplet.get("composants"))); //même chose mais c'est un circuit relié en Série.
-            case "parallele" -> new CircuitParallele(lireListeComposants(CircuitAuComplet.get("composants"))); //même chose mais c'est un circuit relié en parralèle.
-            default -> throw new IllegalStateException("Je ne sais pas quelle est cette composante : " + type); // composante inconnue par le programme et vient préciser le string analyser.
-        };
+        if ("parallele".equals(type)) {
+            new CircuitParallele(lireListeComposants(CircuitAuComplet));
+        } else if ("serie".equals(type)) {
+            new CircuitSerie(lireListeComposants(CircuitAuComplet));
+        } else if ("resistance".equals(type)) {
+            return new Resistance(CircuitAuComplet.asDouble());
+        } throw new IllegalArgumentException("Je ne reconnais pas cette composante");
     }
 
-    private List<Composant> lireListeComposants(JsonNode ListeComposants) { // on lit le JsonNode de manière à resortir la liste de composantes pour l'interpréter.
-        if (ListeComposants == null || !ListeComposants.isArray()){ //est ce que le JsonNode existe et s'il n'est pas une s'il n'y a pas au moins une liste de Résistance contenant une Résistance.
+    private List<Composant> lireListeComposants(JsonNode ListeComposants){ // on lit le JsonNode de manière à resortir la liste de composantes pour l'interpréter.
+        if (ListeComposants == null || !ListeComposants.isArray()) { //est ce que le JsonNode existe et s'il n'est pas une s'il n'y a pas au moins une liste de Résistance contenant une Résistance.
             throw new IllegalArgumentException("Le champ 'composants' doit être une array list de différentes Résistance!"); // à cette étape composants ressemble à un type entre parrallele et série qui contient des résistance.
         }
 
         List<Composant> composants = new ArrayList<>(); // on crée une array liste de composantes
 
-        for (JsonNode CircuitEnfant : ListeComposants){ // Pour l'enfant de Circuit la classe parent qu'on vient chercher dans le JsonNode,
+        for (JsonNode CircuitEnfant : ListeComposants) { // Pour l'enfant de Circuit la classe parent qu'on vient chercher dans le JsonNode,
             composants.add(lireComposant(CircuitEnfant)); // on vient ajouter à notre liste de composantes chaque composante individuelle de CircuitEnfant ce qui inclue,
         } // son type qui est soit un un circuit branché en série ou un circuit branché en parrallelle et son nombre de Résistance.
         return composants; // tout cela se fait retourner comme une liste de Composantes interprétable.
