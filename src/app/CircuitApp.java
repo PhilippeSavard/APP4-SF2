@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CircuitApp {
+public class  CircuitApp {
+
+    private static final char fSep = File.separatorChar;
+    private static final String pathIn = System.getProperty("user.dir") + fSep + "src" + fSep + "donnees";
+
     public static void main(String[] args) {
         CircuitApp Client = new CircuitApp(); // imprime directement le "Client-Side" qui vas géré les interaction client
         Client.executer(); // marche parce que le Client-Side c'est un scanner qui gère les interractions donc on lui demande de déjà l'imprimer.
@@ -17,7 +21,7 @@ public class CircuitApp {
     private void executer() {
         Scanner scanner = new Scanner(System.in); // création d'un scanner qui interprète le client-side
         CircuitBuilder CircuitGlobale = new CircuitBuilder(); // important parce que prouve la différence entre client side et back-end side.
-        File dossier = new File("fichiers_json"); // désigne le dossier où vont être ranger les fichiers JSON.
+        File dossier = new File(pathIn); // désigne le dossier où vont être ranger les fichiers JSON.
 
         boolean pasFini = true; //tant que ce n'est pas finit alors il faut continuer l'application.
 
