@@ -48,12 +48,12 @@ public class CircuitBuilder {
         }
 
         if ("parallele".equals(type)) {
-            new CircuitParallele(lireListeComposants(CircuitAuComplet));
+            return new CircuitParallele(lireListeComposants(CircuitAuComplet));
         } else if ("serie".equals(type)) {
-            new CircuitSerie(lireListeComposants(CircuitAuComplet));
+           return new CircuitSerie(lireListeComposants(CircuitAuComplet));
         } else if ("resistance".equals(type)) {
             return new Resistance(CircuitAuComplet.asDouble());
-        } throw new IllegalArgumentException("Je ne reconnais pas cette composante");
+        } else throw new IllegalArgumentException("Je ne reconnais pas cette composante");
     }
 
     private List<Composant> lireListeComposants(JsonNode ListeComposants){ // on lit le JsonNode de manière à resortir la liste de composantes pour l'interpréter.
