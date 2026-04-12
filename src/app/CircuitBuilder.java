@@ -46,7 +46,6 @@ public class CircuitBuilder {
         if (CircuitAuComplet.get("circuit") == null) { // si le circuit n'existe pas ou que le champ "type" est null alors il n'est pas réel.
             throw new IllegalArgumentException("Le circuit dans son ensemble est un JsonNode qui n'existe pas!");
         }
-
         if ("parallele".equals(type)) {
             return new CircuitParallele(lireListeComposants(CircuitAuComplet));
         } else if ("serie".equals(type)) {
